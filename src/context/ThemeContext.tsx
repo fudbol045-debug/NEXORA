@@ -140,10 +140,25 @@ export const THEME_CONFIGS: Record<ThemeMode, { name: string; description: strin
   },
 };
 
+export interface ThemeInfo {
+  id: ThemeMode;
+  name: string;
+  description: string;
+  previewColor: string;
+}
+
+export const THEMES_LIST: ThemeInfo[] = (Object.keys(THEME_CONFIGS) as ThemeMode[]).map((mode) => ({
+  id: mode,
+  name: THEME_CONFIGS[mode].name,
+  description: THEME_CONFIGS[mode].description,
+  previewColor: THEME_CONFIGS[mode].previewColor,
+}));
+
 interface ThemeContextType {
   theme: ThemeMode;
   setTheme: (theme: ThemeMode) => void;
   tokens: ThemeTokens;
+  themes: ThemeInfo[];
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -172,7 +187,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const tokens = THEME_CONFIGS[theme].tokens;
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, tokens }}>
+    <ThemeContext.Provider value={{ theme, setTheme, tokens, themes: THEMES_LIST }}>
       {children}
     </ThemeContext.Provider>
   );

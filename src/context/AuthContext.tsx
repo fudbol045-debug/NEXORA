@@ -203,6 +203,7 @@ export const INITIAL_SUB_ADMINS: BusinessSubAdmin[] = [
 interface AuthContextType {
   currentUser: User;
   switchUser: (userId: string) => void;
+  loginAs: (userId: string) => void;
   updateProfile: (updated: Partial<User>) => void;
   updateAddress: (address: Address) => void;
   subAdmins: BusinessSubAdmin[];
@@ -386,6 +387,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         currentUser,
         switchUser,
+        loginAs: switchUser,
         updateProfile,
         updateAddress,
         subAdmins,

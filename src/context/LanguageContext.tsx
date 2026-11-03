@@ -341,9 +341,12 @@ export const TRANSLATIONS: Record<string, Record<LanguageCode, string>> = {
 
 interface LanguageContextType {
   language: LanguageCode;
+  currentLanguage: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
   t: (key: string) => string;
   currentLangInfo: LanguageInfo;
+  languages: LanguageInfo[];
+  isRtl: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -360,6 +363,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const currentLangInfo = LANGUAGES.find((l) => l.code === language) || LANGUAGES[0];
+  const isRtl = currentLangInfo.dir === 'rtl';
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -374,7 +378,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, currentLangInfo }}>
+    <LanguageContext.Provider
+      value={{
+        language,
+        currentLanguage: language,
+        setLanguage,
+        t,
+        currentLangInfo,
+        languages: LANGUAGES,
+        isRtl,
+      }}
+    >
       {children}
     </LanguageContext.Provider>
   );

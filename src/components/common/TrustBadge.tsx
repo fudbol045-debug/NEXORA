@@ -64,3 +64,5 @@ export const TrustBadge: React.FC<TrustBadgeProps> = ({
     </span>
   );
 };
+
+export default TrustBadge;
